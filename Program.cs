@@ -38,4 +38,27 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        if (!context.Usuarios.Any())
+        {
+            context.Usuarios.Add(new AddressChallenge.Models.Usuario
+            {
+                Id = Guid.NewGuid(),
+                Nome = "Administrador",
+                Username = "admin",
+                Senha = "admin"
+            });
+            context.SaveChanges();
+        }
+    }
+    catch (Exception)
+    {
+        // Ignora caso o banco ainda não tenha sido criado/migrado
+    }
+}
+
 app.Run();
