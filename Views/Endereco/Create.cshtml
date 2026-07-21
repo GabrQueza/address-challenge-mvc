@@ -1,0 +1,67 @@
+@model AddressChallenge.Models.Endereco
+@{
+    ViewData["Title"] = "Novo Endereço";
+}
+
+<div class="container mt-4">
+    <h2>Novo Endereço</h2>
+    <hr />
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="Cep" class="form-label">CEP</label>
+                        <input asp-for="Cep" class="form-control" />
+                        <span asp-validation-for="Cep" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-7">
+                        <label asp-for="Logradouro" class="form-label">Logradouro</label>
+                        <input asp-for="Logradouro" class="form-control" />
+                        <span asp-validation-for="Logradouro" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Numero" class="form-label">Número</label>
+                        <input asp-for="Numero" class="form-control" />
+                        <span asp-validation-for="Numero" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="Complemento" class="form-label">Complemento</label>
+                        <input asp-for="Complemento" class="form-control" />
+                        <span asp-validation-for="Complemento" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Bairro" class="form-label">Bairro</label>
+                        <input asp-for="Bairro" class="form-control" />
+                        <span asp-validation-for="Bairro" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Cidade" class="form-label">Cidade</label>
+                        <input asp-for="Cidade" class="form-control" />
+                        <span asp-validation-for="Cidade" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-1">
+                        <label asp-for="Uf" class="form-label">UF</label>
+                        <input asp-for="Uf" class="form-control" />
+                        <span asp-validation-for="Uf" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <a asp-action="Index" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
