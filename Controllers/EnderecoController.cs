@@ -112,4 +112,34 @@ public class EnderecoController : Controller
     {
         return _context.Enderecos.Any(e => e.Id == id);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> ExportarCsv()
+    {
+        var userId = GetUserId();
+        var enderecos = await _context.Enderecos
+            .Where(e => e.UsuarioId == userId)
+            .ToListAsync();
+
+        var builder = new System.Text.StringBuilder();
+        // Cabeçalho
+        builder.AppendLine("CEP;Logradouro;Numero;Complemento;Bairro;Cidade;UF");
+
+        foreach (var end in enderecos)
+        {
+            var cep = end.Cep?.Replace(";", ",") ?? "";
+            var logr = end.Logradouro?.Replace(";", ",") ?? "";
+            var num = end.Numero?.Replace(";", ",") ?? "";
+            var comp = end.Complemento?.Replace(";", ",") ?? "";
+            var bairro = end.Bairro?.Replace(";", ",") ?? "";
+            var cidade = end.Cidade?.Replace(";", ",") ?? "";
+            var uf = end.Uf?.Replace(";", ",") ?? "";
+
+            builder.AppendLine($"{cep};{logr};{num};{comp};{bairro};{cidade};{uf}");
+        }
+
+        // Usando o GetPreamble (BOM) para o Excel reconhecer os acentos em UTF8 adequadamente
+        var bytes = System.Text.Encoding.UTF8.GetPreamble().Concat(System.Text.Encoding.UTF8.GetBytes(builder.ToString())).ToArray();
+        return File(bytes, "text/csv", "meus-enderecos.csv");
+    }
 }
