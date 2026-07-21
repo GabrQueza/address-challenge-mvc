@@ -1,0 +1,56 @@
+@model IEnumerable<AddressChallenge.Models.Endereco>
+@{
+    ViewData["Title"] = "Meus Endereços";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+    <h2>Meus Endereços</h2>
+    <a asp-action="Create" class="btn btn-success">Novo Endereço</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Logradouro</th>
+                        <th>Nº</th>
+                        <th>Complemento</th>
+                        <th>Bairro</th>
+                        <th>Cidade</th>
+                        <th>UF</th>
+                        <th>CEP</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center py-4">Nenhum endereço encontrado.</td>
+                        </tr>
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">@item.Logradouro</td>
+                            <td class="align-middle">@item.Numero</td>
+                            <td class="align-middle">@item.Complemento</td>
+                            <td class="align-middle">@item.Bairro</td>
+                            <td class="align-middle">@item.Cidade</td>
+                            <td class="align-middle">@item.Uf</td>
+                            <td class="align-middle">@item.Cep</td>
+                            <td class="text-end align-middle">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-2">Editar</a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir este endereço?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
